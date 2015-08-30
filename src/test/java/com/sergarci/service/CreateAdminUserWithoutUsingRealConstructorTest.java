@@ -4,6 +4,8 @@ import com.sergarci.dao.UserDao;
 import com.sergarci.model.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -15,21 +17,20 @@ public class CreateAdminUserWithoutUsingRealConstructorTest {
 
     private UserService userService;
 
+    @Mock
     private UserDao userDao;
 
+    @Mock
     private User user;
+    @Mock
     private User savedUser;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         userService = spy(new UserService());
 
-        userDao = mock(UserDao.class);
-
         userService.setUserDao(userDao);
-
-        user = mock(User.class);
-        savedUser = mock(User.class);
 
         doReturn(user).when(userService).createEmptyUser();
     }

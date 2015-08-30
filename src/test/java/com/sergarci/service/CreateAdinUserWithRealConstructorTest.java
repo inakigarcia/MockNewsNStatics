@@ -5,6 +5,8 @@ import com.sergarci.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -15,19 +17,18 @@ public class CreateAdinUserWithRealConstructorTest {
 
     private UserService userService;
 
+    @Mock
     private UserDao userDao;
 
+    @Mock
     private User user;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         userService = new UserService();
 
-        userDao = mock(UserDao.class);
-
         userService.setUserDao(userDao);
-
-        user = mock(User.class);
     }
 
     @Test
