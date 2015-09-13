@@ -24,52 +24,70 @@ class CreateUserSpec extends Specification {
         given:
 
         when:
-        userService.createAdminUser(NAME, EMAIL)
+            userService.createAdminUser(NAME, EMAIL)
 
         then:
-        1 * userService.createEmptyUser()
+            1 * userService.createEmptyUser()
 
     }
 
     def "we set the given name to this new empty user"() {
 
         given:
-        User user = Mock(User)
+            User user = Mock(User)
 
         when:
-        userService.createAdminUser(NAME, EMAIL)
+            userService.createAdminUser(NAME, EMAIL)
 
         then:
-        userService.createEmptyUser() >> user
-        1 * user.setName(NAME)
+            userService.createEmptyUser() >> user
+            1 * user.setName(NAME)
 
     }
 
     def "we set the given email to this new empty user"() {
 
         given:
-        User user = Mock(User)
+            User user = Mock(User)
 
         when:
-        userService.createAdminUser(NAME, EMAIL)
+            userService.createAdminUser(NAME, EMAIL)
 
         then:
-        userService.createEmptyUser() >> user
-        1 * user.setEmail(EMAIL)
+            userService.createEmptyUser() >> user
+            1 * user.setEmail(EMAIL)
 
     }
 
     def "we save this new user"() {
 
         given:
-        User user = Mock(User)
+            User user = Mock(User)
 
         when:
-        userService.createAdminUser(NAME, EMAIL)
+            userService.createAdminUser(NAME, EMAIL)
 
         then:
-        userService.createEmptyUser() >> user
-        1 * userDao.saveUser(user)
+            userService.createEmptyUser() >> user
+            1 * userDao.saveUser(user)
+
+    }
+
+    def "we set users properties before saving it"() {
+
+        given:
+            User user = Mock(User)
+
+        when:
+            userService.createAdminUser(NAME, EMAIL)
+
+        then:
+            userService.createEmptyUser() >> user
+        then:
+            1 * user.setName(NAME)
+            1 * user.setEmail(EMAIL)
+        then:
+            1 * userDao.saveUser(user)
 
     }
 }
